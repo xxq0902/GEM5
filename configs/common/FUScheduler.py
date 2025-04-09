@@ -197,6 +197,15 @@ class IdealScheduler(Scheduler):
             IssuePort(fu=[IntALU()]),
             IssuePort(fu=[IntDiv()])
         ]),
+        IssueQue(name='intIQ4', inports=2, size=2*24, oports=[
+            IssuePort(fu=[IntALU()])
+        ]),
+        IssueQue(name='intIQ5', inports=2, size=2*24, oports=[
+            IssuePort(fu=[IntALU()])
+        ]),
+        IssueQue(name='intIQ6', inports=2, size=2*24, oports=[
+            IssuePort(fu=[IntALU()])
+        ]),
         IssueQue(name='load0', inports=6, size=3*32, oports=[
             IssuePort(fu=[ReadPort()]),
             IssuePort(fu=[ReadPort()]),
@@ -234,18 +243,21 @@ class IdealScheduler(Scheduler):
             IssuePort(fu=[SIMD_Unit()])
         ], scheduleToExecDelay=3),
     ]
-    __int_bank = ['intIQ0', 'intIQ1', 'intIQ2', 'intIQ3', 'load0', 'store0', 'std0']
+    __int_bank = ['intIQ0', 'intIQ1', 'intIQ2', 'intIQ3','intIQ4', 'intIQ5', 'intIQ6', 'load0', 'store0', 'std0']
     __fp_bank = ['fpIQ0', 'fpIQ1', 'fpIQ2', 'fpIQ3', 'fpIQ4', 'store0']
     specWakeupNetwork = [
         SpecWakeupChannel(srcIQ='intIQ0', dstIQ=__int_bank),
         SpecWakeupChannel(srcIQ='intIQ1', dstIQ=__int_bank),
         SpecWakeupChannel(srcIQ='intIQ2', dstIQ=__int_bank),
         SpecWakeupChannel(srcIQ='intIQ3', dstIQ=__int_bank),
+        SpecWakeupChannel(srcIQ='intIQ4', dstIQ=__int_bank),
+        SpecWakeupChannel(srcIQ='intIQ5', dstIQ=__int_bank),
+        SpecWakeupChannel(srcIQ='intIQ6', dstIQ=__int_bank),
         SpecWakeupChannel(srcIQ='fpIQ0', dstIQ=__fp_bank),
         SpecWakeupChannel(srcIQ='fpIQ1', dstIQ=__fp_bank),
         SpecWakeupChannel(srcIQ='fpIQ2', dstIQ=__fp_bank),
         SpecWakeupChannel(srcIQ='fpIQ3', dstIQ=__fp_bank),
-        # SpecWakeupChannel(srcIQ='fpIQ4', dstIQ=__fp_bank),
+        SpecWakeupChannel(srcIQ='fpIQ4', dstIQ=__fp_bank),
         SpecWakeupChannel(srcIQ='load0', dstIQ=__int_bank),
     ]
 
